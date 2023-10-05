@@ -49,10 +49,11 @@ class MainActivity : ComponentActivity() {
                 composable(route = "home"){
                     HomeScreen(){
                             height, weight -> viewModel.bmiCalculate(height , weight)
+                        navController.navigate("result")
                     }
                 }
                 composable(route = "result"){
-                    ResultScreen(naviController =navController, bmi = 35.0)
+                    ResultScreen(naviController =navController, bmi = bmi)
                 }
             }
 //            ResultScreen(bmi = 35.0)
@@ -122,12 +123,9 @@ fun ResultScreen(naviController: NavController, bmi : Double,){
         else -> "저체중"
     }
     val imageRes = when {
-        bmi >= 35 -> "고도 비만"
-        bmi >= 30 -> "2단계 비만"
-        bmi >= 25 -> "1단계 비만"
-        bmi >= 23 -> "과체중"
-        bmi >= 18.5 -> "정상"
-        else -> "저체중"
+        bmi >= 23 -> R.drawable.baseline_sentiment_very_dissatisfied_24
+        bmi >= 18.5 -> R.drawable.baseline_sentiment_satisfied_24
+        else -> R.drawable.baseline_sentiment_dissatisfied_24
     }
     Scaffold(
         topBar = {
@@ -142,12 +140,12 @@ fun ResultScreen(naviController: NavController, bmi : Double,){
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,) {
             Text(
-                "과체중",
+                text,
                 // compose에서 글자크기 는 무조건 sp
                 fontSize=30.sp
             )
             Spacer(modifier = Modifier.height(50.dp))
-            Image(painter = painterResource(id = R.drawable.baseline_sentiment_dissatisfied_24), contentDescription = null, modifier = Modifier.size(100.dp), colorFilter = ColorFilter.tint(color= Color.Black))
+            Image(painter = painterResource(id = imageRes), contentDescription = null, modifier = Modifier.size(100.dp), colorFilter = ColorFilter.tint(color= Color.Black))
 
         }
     }
