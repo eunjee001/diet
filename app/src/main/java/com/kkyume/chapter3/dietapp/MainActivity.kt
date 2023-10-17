@@ -43,6 +43,9 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val viewModel = viewModel<BmiViewModel>()
+
+            // 네비게이션 : 사용자가 원하는 정보를 빠르고 정확하게 찾고, 사용자에게 현재 위치와 이동방향을 제공해 주는 모든것들을 의미
+            // remembernavController() 함수란 ? --> NavController을 생성하고, 컴포지션 안에 저장한다.
             val navController = rememberNavController()
             val bmi = viewModel.bmi.value
             NavHost(navController = navController, startDestination = "home"){
@@ -115,7 +118,7 @@ fun HomeScreen(
 @Composable
 fun ResultScreen(naviController: NavController, bmi : Double,){
     val text = when{
-        bmi >= 35 -> "고도 비만"
+             bmi >= 35 -> "고도 비만"
         bmi >= 30 -> "2단계 비만"
         bmi >= 25 -> "1단계 비만"
         bmi >= 23 -> "과체중"
@@ -132,7 +135,7 @@ fun ResultScreen(naviController: NavController, bmi : Double,){
             TopAppBar(title = { Text("비만도 계산기") },
                 navigationIcon = {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "home", modifier = Modifier.clickable {
-                        naviController.popBackStack()
+                        naviController.popBackStack() // 현재 대상을 백스택에서 팝하고 이전 대상으로 이동하려고 시도.
                     })
                 }
             )
